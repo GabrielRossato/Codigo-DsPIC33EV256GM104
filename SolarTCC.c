@@ -1,7 +1,5 @@
-/*
- * File:   SolarTCC.c
- * Author: Gabriel Rossato Francisco
- */
+//Codigo em C++ implementado no dsPIC33EV256GM104 compilador XC16 V1.5
+//Author: Gabriel Rossato Francisco
 // DSPIC33EV256GM104 Configuration Bit Settings
 // 'C' source line config statements
 
@@ -167,7 +165,7 @@ double XaxisControl = 0;
 double YaxisError = 0;
 double YaxisControl = 0;
 
-int enableFunctionTransfer=0; //Levantar FunçãoDeTransferencia
+int enableFunctionTransfer=0; //Levantar FunÃ§Ã£oDeTransferencia
 
 int enableRastreamentoDoSol=0; //Realiza o rastreamento do sol
 
@@ -186,10 +184,10 @@ int penpenYLeft = 0;
 void __attribute__((__interrupt__, no_auto_psv)) _AD1Interrupt(void) 
 {
     
-    AD1CON1bits.ASAM = 0; //Desabilita o AutoSAMP até que seja escrito 1 novamente
+    AD1CON1bits.ASAM = 0; //Desabilita o AutoSAMP atÃ© que seja escrito 1 novamente
     
     
-    //Adianta a comutação um tempo de amostragem
+    //Adianta a comutaÃ§Ã£o um tempo de amostragem
     //Porque eu leio a ADC, depois comuto o MUX
     switch((p+1)%5)
     {
@@ -271,13 +269,13 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void) //10kHz samp
   
     //switch(p)
     //{
-    //  Relação das portaas com LDRs     
+    //  RelaÃ§Ã£o das portaas com LDRs     
     //}
     
       
     //Current Tension Mesure
     TensionPV = ADC1BUF0*0.01465201465;  //5*12/4095 Resistive Divisor G=1/12
-    CurrentPV = ADC1BUF1; //Deve ser feito assim. Não juntar com a de baixo
+    CurrentPV = ADC1BUF1; //Deve ser feito assim. NÃ£o juntar com a de baixo
     //CurrentPV =(CurrentPV-2047)*0.0185000185;  //(ADC-2047)*(5*1000)/(66*4095) Current Sensor ACS712 30A (66 mV/A)
     CurrentPV = (CurrentPV - 2047)*0.0066000066; //(ADC-2047)*(5*1000)/(185*4095) Current Sensor ACS712 5A (185 mV/A)
     TensionLoad = ADC1BUF2*0.01465201465;    //5*12/4095 Resistive Divisor G=1/12 
@@ -286,7 +284,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T1Interrupt(void) //10kHz samp
     AD1CON1bits.ASAM = 1; //Habilita o AutoSAMP novamente para realizar a nova leitura das ADCs
     
     
-    ////////Controle PI para controlar tensçao Vpv
+    ////////Controle PI para controlar tensÃ§ao Vpv
     if(EnableControlVpv == 1)
     {
         //fs = 10kHz
@@ -339,14 +337,14 @@ void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void) //500Hz peri
     //i=~i;  
     
     /*
-    //Obter a FunçãoDeTransferencia///////////////////////////////////////////
+    //Obter a FunÃ§Ã£oDeTransferencia///////////////////////////////////////////
     if(enableFunctionTransfer==1)
     {
         SumLDRs = (Sensor_LDR[0][n] + Sensor_LDR[1][n] + Sensor_LDR[2][n] + Sensor_LDR[3][n] + Sensor_LDR[4][n])/5;
         
         //Eixo X
         //Degrau aplicado tempo 0 com amplitude = 30
-        //Ganho da malha de realimentação = 60
+        //Ganho da malha de realimentaÃ§Ã£o = 60
         
         XaxisError = (Sensor_LDR[1][n] - Sensor_LDR[2][n])/SumLDRs; //Erro normalizado pela media de todos os sensores
 
@@ -372,7 +370,7 @@ void __attribute__((__interrupt__, no_auto_psv)) _T2Interrupt(void) //500Hz peri
         
         //Eixo Y
         //Degrau aplicado tempo 0 com amplitude = 30
-        //Ganho da malha de realimentação = 40
+        //Ganho da malha de realimentaÃ§Ã£o = 40
         YaxisError = (Sensor_LDR[3][n] - Sensor_LDR[4][n])/SumLDRs; //Erro normalizado pela media de todos os sensores
     
         YaxisControl = (30-(40*YaxisError))*65535; //Normaliza a saida de 0 a 1
@@ -731,13 +729,13 @@ void __attribute__ ((__interrupt__,no_auto_psv)) _U1RXInterrupt(void)
             for(i=0;i<4;i++) U1TXREG = data7.SendChar[i];
             break;
         
-        //Controle da ações do sistema///////////////
+        //Controle da aÃ§Ãµes do sistema///////////////
         case 'm':
             EnableMPPT = 1;
             break;
         
         case 'v':
-            ReferenciaVpv = 10; //Condição Inicial
+            ReferenciaVpv = 10; //CondiÃ§Ã£o Inicial
             EnableControlVpv = 1;
             break;
         
@@ -862,7 +860,7 @@ void __attribute__ ((__interrupt__,no_auto_psv)) _U1RXInterrupt(void)
         penpenYLeft = 1;
     }
     
-    if(ReceivedChar=='f') //Levantar FunçãoDeTransferencia
+    if(ReceivedChar=='f') //Levantar FunÃ§Ã£oDeTransferencia
     {
         enableFunctionTransfer = 1;
     }
